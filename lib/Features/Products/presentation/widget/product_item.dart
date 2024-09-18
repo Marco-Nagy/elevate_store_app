@@ -1,5 +1,6 @@
 import 'package:elevate_store/Features/Products/domain/entities/product_entity.dart';
 import 'package:elevate_store/core/helpers/extension/navigations.dart';
+import 'package:elevate_store/core/styles/colors/my_colors.dart';
 import 'package:elevate_store/core/styles/fonts/my_fonts.dart';
 import 'package:elevate_store/core/utils/widgets/custom_image.dart';
 import 'package:elevate_store/core/utils/widgets/text_app.dart';
@@ -20,105 +21,108 @@ class ProductItem extends StatefulWidget {
   State<ProductItem> createState() => _ProductItemState();
 }
 
-class _ProductItemState extends State<ProductItem>
-    with TickerProviderStateMixin {
-  late AnimationController animationTrashController;
-  late AnimationController animationEditController;
-  ValueNotifier<bool> itemPressed = ValueNotifier(false);
-
+class _ProductItemState extends State<ProductItem> {
   @override
-  void initState() {
-    super.initState();
-    animationTrashController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 300));
-    animationEditController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 300));
-  }
-
-  @override
-  void dispose() {
-    animationTrashController.dispose();
-    animationEditController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        InkWell(
-          onLongPress: () {
-            itemPressed.value = true;
-          },
-          onTap: () {
-        
-          },
-          child: Container(
-            height: 250.h,
-            width: 165.w,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                //Buttons
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.white.withOpacity(.6),
+              borderRadius: BorderRadius.circular(15.w),
+              border: Border.all(color:  MyColors.border, width: 2)),
+          height: 250.h,
+          width: 180.w,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //Buttons
 
-                // Show Image
-                Flexible(
-                  child: Container(
-                    height: 160.h,
-                    width: 160.w,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.w),
+              // Show Image
+              Flexible(
+                child: Container(
+                  height: 140.h,
+                  width: 160.w,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15.w),
+                  ),
+                  child: CustomImage(
+                    tag: 'tag${widget.product.id}',
+                    imageUrl: widget.product.image,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10.h),
+              // title
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                child: TextApp(
+                  text: widget.product.title,
+                  style: MyFonts.styleSemiBold600_14
+                      .copyWith(color: MyColors.navyDARK),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              SizedBox(height: 2.5.h),
+              // Category Name
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                child: TextApp(
+                  text: widget.product.description,
+                  style: MyFonts.styleSemiBold600_14
+                      .copyWith(color: MyColors.navyDARK),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              SizedBox(height: 5.h),
+              // Price
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                child: TextApp(
+                  text: 'EGP ${widget.product.price}',
+                  style: MyFonts.styleSemiBold600_14
+                      .copyWith(color: MyColors.navyDARK),
+                ),
+              ),
+              SizedBox(height: 5.h),
+              // Rating
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                child: Row(
+                  children: [
+                    TextApp(
+                      text: 'Review( ${widget.product.rating.rate})',
+                      style: MyFonts.styleSemiBold600_14
+                          .copyWith(color: MyColors.navyDARK),
                     ),
-                    child: Card(
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        elevation: 10.w,
-                        child: CustomImage(
-                          tag: 'tag${widget.product.id}',
-                          imageUrl:
-                              widget.product.image,
-                        )),
-                  ),
+                    const Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    const Spacer(),
+                    const CircleAvatar(
+                      radius: 20,
+                      backgroundColor: MyColors.navyLight,
+                      child: Icon(Icons.add, size: 30,weight: 50,opticalSize: 60, color: Colors.white),
+                    )
+                  ],
                 ),
-                SizedBox(height: 10.h),
-                // title
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  child: TextApp(
-                    text: widget.product.title,
-                    style: MyFonts.styleBold700_14
-                        .copyWith(color: Colors.black),
-                    maxLines: 1,
-                  ),
-                ),
-                SizedBox(height: 5.h),
-                // Category Name
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  child: TextApp(
-                    text: widget.product.category,
-                    style: MyFonts.styleBold700_12
-                        .copyWith(color: Colors.black),
-                    maxLines: 1,
-                  ),
-                ),
-                SizedBox(height: 5.h),
-                // Price
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  child: TextApp(
-                    text: '\$ ${widget.product.price}',
-                    style: MyFonts.styleBold700_12
-                        .copyWith(color: Colors.black),
-                  ),
-                ),
-                SizedBox(height: 10.h),
-              ],
-            ),
+              ),
+              SizedBox(height: 10.h),
+            ],
           ),
         ),
-
+const Positioned(
+  top: 5,
+    right: 5,
+    child:   CircleAvatar(
+  radius: 20,
+  backgroundColor: Colors.white,
+  child: Icon(Icons.favorite_outline_rounded, size: 30,weight: 50,opticalSize: 60, color: MyColors.navyLight),
+))
       ],
     );
   }
