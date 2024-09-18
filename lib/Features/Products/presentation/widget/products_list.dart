@@ -19,8 +19,8 @@ class ProductsList extends StatelessWidget {
       },
       child: CustomScrollView(
         slivers: [
-          SliverToBoxAdapter(
-            child: SizedBox(height: 20),
+           SliverToBoxAdapter(
+            child: SizedBox(height: 20.h),
           ),
           SliverToBoxAdapter(
             child: GridView.builder(
@@ -31,17 +31,17 @@ class ProductsList extends StatelessWidget {
               gridDelegate:
               const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, //Number of cloums
-                crossAxisSpacing: 8, // Spacing between colums
-                mainAxisSpacing: 15, //Spacing between rows
-                childAspectRatio: 165 / 250,
+                crossAxisSpacing: 5, // Spacing between colums
+                mainAxisSpacing: 5, //Spacing between rows
+                childAspectRatio: 180 / 250,
               ),
               itemBuilder: (context, index) {
                 return ProductItem(product: productList[index],);
               },
             ),
           ),
-          SliverToBoxAdapter(
-            child: SizedBox(height: 20),
+           SliverToBoxAdapter(
+            child: SizedBox(height: 20.h),
           ),
         ],
       ),
